@@ -4,10 +4,12 @@ import Component1 from './components/Component1';
 import Component2 from './components/Component2';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
   return (
-    <div>
+    <Provider store={store}>
       <Router>
         <NavBar></NavBar>
         <Switch>
@@ -16,7 +18,7 @@ function App() {
           <Route component={NotFound}></Route>
         </Switch>
       </Router>
-    </div>
+    </Provider>
   );
 }
 

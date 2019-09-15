@@ -7,6 +7,8 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import SearchIcon from '@material-ui/icons/Search';
+import { getPosts } from '../actions/postsActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,8 +63,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SearchAppBar() {
+function SearchAppBar({ getPosts, post: { posts } }) {
   const classes = useStyles();
+  useEffect(() => {
+    getPosts();
+  }, [getPosts]);
 
   const [search, setSearch] = useState(null);
 
@@ -101,3 +106,12 @@ export default function SearchAppBar() {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  post: state.post
+});
+
+export default connect(
+  mapStateToProps,
+  { getPosts }
+)(SearchAppBar);
