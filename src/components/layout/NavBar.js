@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
-import SearchIcon from '@material-ui/icons/Search';
-import { getPosts, searchPost, notSearching } from '../../actions/postsActions';
-import { connect } from 'react-redux';
+import GlobalSearch from './GlobalSearch';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,27 +59,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SearchAppBar({
-  getPosts,
-  searchPost,
-  notSearching,
-  post: { posts, isSearch }
-}) {
+function SearchAppBar() {
   const classes = useStyles();
-  const [search, setSearch] = useState('');
-
-  const findPost = e => {
-    e.preventDefault();
-
-    if (e.target.value) {
-      searchPost(e.target.value);
-      setSearch(e.target.value);
-    } else {
-      notSearching();
-      setSearch('');
-    }
-  };
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -92,31 +69,11 @@ function SearchAppBar({
           <Typography className={classes.title} variant="h6" noWrap>
             Awesome Blog
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={e => findPost(e)}
-            />
-          </div>
+          <GlobalSearch />
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-const mapStateToProps = state => ({
-  post: state.post
-});
-
-export default connect(
-  mapStateToProps,
-  { getPosts, searchPost, notSearching }
-)(SearchAppBar);
+export default SearchAppBar;

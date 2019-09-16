@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 
 import NotFound from './components/layout/NotFound';
 import NavBar from './components/layout/NavBar';
-import Posts from './components/posts/Posts'
+import Posts from './components/posts/Posts';
+import Post from './components/posts/Post';
 import store from './store/store';
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-          <Route exact to="/" component={Posts}></Route>
+          <Route exact path="/" component={Posts} />
+          <Route exact path="/posts/:id" component={Post} />
           <Route component={NotFound} />
         </Switch>
       </Router>
