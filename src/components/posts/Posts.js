@@ -35,9 +35,7 @@ const Posts = ({
   ) : (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <PostForm></PostForm>
-        </Paper>
+        <PostForm></PostForm>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.paper}>
