@@ -68,7 +68,7 @@ const GlobalSearch = ({ searchPost, notSearching }) => {
         <SearchIcon />
       </div>
       <InputBase
-        placeholder="Search…"
+        placeholder="Search post..."
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput
