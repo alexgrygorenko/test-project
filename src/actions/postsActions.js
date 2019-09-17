@@ -14,6 +14,30 @@ export const getPosts = () => async dispatch => {
   }
 };
 
+// export const addPost = post => dispatch => {
+//   try {
+//     const config = {
+//       headers: {
+//         'Content-Type': 'application/json'
+//       }
+//     };
+//     const body = JSON.stringify(formData);
+
+//     const res = await axios.post(
+//       'https://simple-blog-api.crew.red/posts',
+//       body,
+//       config
+//     );
+
+//     dispatch({
+//       type: ADD_POST,
+//       payload: res.data
+//     });
+//   } catch (err) {
+//     console.log('Error =(');
+//   }
+// }
+
 export const searchPost = pattern => dispatch => {
   try {
     dispatch({
