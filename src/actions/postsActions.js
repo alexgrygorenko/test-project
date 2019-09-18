@@ -4,7 +4,10 @@ import {
   SEARCH_POST,
   NOT_SEARCHING,
   ADD_POST,
-  DELETE_POST
+  DELETE_POST,
+  SET_CURRENT,
+  UPDATE_CURRENT,
+  CLEAR_CURRENT
 } from './types';
 
 export const getPosts = () => async dispatch => {
@@ -54,6 +57,42 @@ export const addPost = formData => async dispatch => {
   } catch (err) {
     console.log('Error =(');
   }
+};
+
+export const updatePost = formData => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    const body = JSON.stringify(formData);
+
+    const res = await axios.put(
+      `https://simple-blog-api.crew.red/posts/${formData.id}`,
+      body,
+      config
+    );
+    dispatch({
+      type: UPDATE_CURRENT,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('Error =(');
+  }
+};
+
+export const setPost = post => dispatch => {
+  dispatch({
+    type: SET_CURRENT,
+    payload: post
+  });
+};
+
+export const clearCurrent = () => dispatch => {
+  dispatch({
+    type: CLEAR_CURRENT
+  });
 };
 
 export const searchPost = pattern => dispatch => {

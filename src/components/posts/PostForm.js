@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import { addPost } from '../../actions/postsActions';
+import { addPost, updatePost, clearCurrent } from '../../actions/postsActions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -28,8 +28,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PostForm = ({ addPost }) => {
+const PostForm = ({ addPost, current, updatePost, clearCurrent }) => {
   const classes = useStyles();
+  useEffect(() => {
+    if (current !== null) {
+      setPost({
+        title: current.title,
+        body: current.body
+      });
+    } else {
+      setPost({
+        title: '',
+        body: ''
+      });
+    }
+  }, [current]);
 
   const [post, setPost] = useState({
     title: '',
@@ -40,22 +53,28 @@ const PostForm = ({ addPost }) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const clearFields = () => {
+  const clearAll = () => {
+    if (current) clearCurrent();
     setPost({
       title: '',
       body: ''
     });
   };
 
-  const addNewPost = () => {
-    addPost(post);
-    clearFields();
+  const onSubmit = () => {
+    if (current) {
+      const id = current.id;
+      updatePost({ ...post, id });
+    } else {
+      addPost(post);
+    }
+    clearAll();
   };
 
   return (
     <form className={classes.container}>
       <Typography gutterBottom variant="h4" component="h2">
-        Leave your own post
+        {!current ? 'Leave your own post' : 'Update existing post'}
       </Typography>
       <TextField
         name="title"
@@ -88,27 +107,31 @@ const PostForm = ({ addPost }) => {
       />
       <Container className={classes.buttonContainer}>
         <Button
-          onClick={addNewPost}
+          onClick={onSubmit}
           variant="contained"
           color="primary"
           className={classes.button}
         >
-          Post
+          {current ? 'Update post' : 'Post'}
         </Button>
         <Button
-          onClick={clearFields}
+          onClick={clearAll}
           variant="contained"
           color="secondary"
           className={classes.button}
         >
-          Clear fields
+          {current ? 'Discard changes' : 'Clear fields'}
         </Button>
       </Container>
     </form>
   );
 };
 
+const mapStateToProps = state => ({
+  current: state.post.current
+});
+
 export default connect(
-  null,
-  { addPost }
+  mapStateToProps,
+  { addPost, updatePost, clearCurrent }
 )(PostForm);

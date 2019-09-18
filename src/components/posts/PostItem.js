@@ -1,9 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { deletePost } from '../../actions/postsActions';
+import { deletePost, setPost } from '../../actions/postsActions';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
@@ -27,11 +26,14 @@ const useStyles = makeStyles({
   }
 });
 
-const PostItem = ({ deletePost, post: { title, body, id } }) => {
+const PostItem = ({ setPost, deletePost, post: { title, body, id }, post }) => {
   const classes = useStyles();
 
   const deleteCurPost = () => {
     deletePost(id);
+  };
+  const setCurrent = () => {
+    setPost({ title, body, id });
   };
 
   return (
@@ -51,7 +53,7 @@ const PostItem = ({ deletePost, post: { title, body, id } }) => {
           See Comments
           {/* <Link to={`/posts/${id}`}>See Comments</Link> */}
         </Button>
-        <Button size="small" className={classes.update}>
+        <Button size="small" className={classes.update} onClick={setCurrent}>
           Update Post
         </Button>
         <Button size="small" className={classes.delete} onClick={deleteCurPost}>
@@ -64,5 +66,5 @@ const PostItem = ({ deletePost, post: { title, body, id } }) => {
 
 export default connect(
   null,
-  { deletePost }
+  { deletePost, setPost }
 )(PostItem);

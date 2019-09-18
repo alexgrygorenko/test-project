@@ -3,14 +3,19 @@ import {
   SEARCH_POST,
   NOT_SEARCHING,
   ADD_POST,
-  DELETE_POST
+  DELETE_POST,
+  SET_CURRENT,
+  UPDATE_CURRENT,
+  CLEAR_CURRENT
 } from '../../actions/types';
 
 const initialState = {
   posts: [],
   foundedPosts: [],
+  current: null,
   isSearch: false,
-  loading: true
+  loading: true,
+  errors: null
 };
 
 export default (state = initialState, action) => {
@@ -20,7 +25,7 @@ export default (state = initialState, action) => {
     case GET_POSTS:
       return {
         ...state,
-        posts: payload,
+        posts: payload.reverse(),
         loading: false
       };
     case SEARCH_POST:
@@ -49,6 +54,31 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.filter(post => post.id !== payload),
+        loading: false
+      };
+    case SET_CURRENT:
+      return {
+        ...state,
+        current: payload,
+        loading: false
+      };
+    case CLEAR_CURRENT:
+      return {
+        ...state,
+        current: null
+      };
+    case GET_POSTS:
+      return {
+        ...state,
+        loading: false,
+        current: null
+      };
+    case UPDATE_CURRENT:
+      return {
+        ...state,
+        posts: state.posts.map(post =>
+          post.id !== payload.id ? post : payload
+        ),
         loading: false
       };
     default:
