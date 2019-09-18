@@ -7,3 +7,4 @@ export const SET_CURRENT = 'SET_CURRENT';
 export const UPDATE_CURRENT = 'UPDATE_CURRENT';
 export const CLEAR_CURRENT = 'CLEAR_CURRENT';
 export const GET_POST = 'GET_POST';
+export const ADD_COMMENT = 'ADD_COMMENT';

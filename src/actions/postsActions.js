@@ -8,7 +8,8 @@ import {
   SET_CURRENT,
   UPDATE_CURRENT,
   CLEAR_CURRENT,
-  GET_POST
+  GET_POST,
+  ADD_COMMENT
 } from './types';
 
 export const getPosts = () => async dispatch => {
