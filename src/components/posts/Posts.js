@@ -52,8 +52,12 @@ const Posts = ({
         </Typography>
         <Paper className={classes.paper}>
           {!isSearch
-            ? posts.map(post => <PostItem key={post.id} post={post} />)
-            : foundedPosts.map(post => <PostItem key={post.id} post={post} />)}
+            ? posts.map(post => (
+                <PostItem key={post.id} post={post} showButtons={true} />
+              ))
+            : foundedPosts.map(post => (
+                <PostItem key={post.id} post={post} showButtons={true} />
+              ))}
         </Paper>
       </Grid>
     </Grid>

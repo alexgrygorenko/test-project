@@ -23,12 +23,19 @@ const useStyles = makeStyles({
   },
   delete: {
     color: '#f50057'
+  },
+  link: {
+    textDecoration: 'none'
   }
 });
 
-const PostItem = ({ setPost, deletePost, post: { title, body, id }, post }) => {
+const PostItem = ({
+  setPost,
+  deletePost,
+  post: { title, body, id },
+  showButtons
+}) => {
   const classes = useStyles();
-
   const deleteCurPost = () => {
     deletePost(id);
   };
@@ -38,7 +45,6 @@ const PostItem = ({ setPost, deletePost, post: { title, body, id }, post }) => {
 
   return (
     <Card className={classes.card}>
-      {/* <CardActionArea> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
@@ -47,19 +53,25 @@ const PostItem = ({ setPost, deletePost, post: { title, body, id }, post }) => {
           {body}
         </Typography>
       </CardContent>
-      {/* </CardActionArea> */}
-      <CardActions>
-        <Button size="small" color="primary">
-          See Comments
-          {/* <Link to={`/posts/${id}`}>See Comments</Link> */}
-        </Button>
-        <Button size="small" className={classes.update} onClick={setCurrent}>
-          Update Post
-        </Button>
-        <Button size="small" className={classes.delete} onClick={deleteCurPost}>
-          Delete Post
-        </Button>
-      </CardActions>
+      {showButtons && (
+        <CardActions>
+          <Button size="small" color="primary">
+            <Link className={classes.link} to={`/posts/${id}`}>
+              Comments
+            </Link>
+          </Button>
+          <Button size="small" className={classes.update} onClick={setCurrent}>
+            Update Post
+          </Button>
+          <Button
+            size="small"
+            className={classes.delete}
+            onClick={deleteCurPost}
+          >
+            Delete Post
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };

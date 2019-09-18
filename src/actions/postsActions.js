@@ -7,7 +7,8 @@ import {
   DELETE_POST,
   SET_CURRENT,
   UPDATE_CURRENT,
-  CLEAR_CURRENT
+  CLEAR_CURRENT,
+  GET_POST
 } from './types';
 
 export const getPosts = () => async dispatch => {
@@ -16,6 +17,20 @@ export const getPosts = () => async dispatch => {
 
     dispatch({
       type: GET_POSTS,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('Error =(');
+  }
+};
+
+export const getPost = id => async dispatch => {
+  try {
+    const res = await axios.get(
+      `https://simple-blog-api.crew.red/posts/${id}?_embed=comments`
+    );
+    dispatch({
+      type: GET_POST,
       payload: res.data
     });
   } catch (err) {

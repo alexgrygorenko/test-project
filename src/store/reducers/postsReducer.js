@@ -6,7 +6,8 @@ import {
   DELETE_POST,
   SET_CURRENT,
   UPDATE_CURRENT,
-  CLEAR_CURRENT
+  CLEAR_CURRENT,
+  GET_POST
 } from '../../actions/types';
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   current: null,
   isSearch: false,
   loading: true,
-  errors: null
+  errors: null,
+  post: null
 };
 
 export default (state = initialState, action) => {
@@ -65,13 +67,14 @@ export default (state = initialState, action) => {
     case CLEAR_CURRENT:
       return {
         ...state,
-        current: null
+        current: null,
+        loading: false
       };
     case GET_POSTS:
       return {
         ...state,
-        loading: false,
-        current: null
+        current: null,
+        loading: false
       };
     case UPDATE_CURRENT:
       return {
@@ -79,6 +82,12 @@ export default (state = initialState, action) => {
         posts: state.posts.map(post =>
           post.id !== payload.id ? post : payload
         ),
+        loading: false
+      };
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
         loading: false
       };
     default:
