@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import { addPost } from '../../actions/postsActions';
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    margin: theme.spacing(2)
+    margin: theme.spacing(2),
+    border: '2px solid #3f51b5',
+    borderRadius: '10px',
+    padding: '20px'
   },
   buttonContainer: {
     display: 'flex',
@@ -23,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PostForm = () => {
+const PostForm = ({ addPost }) => {
   const classes = useStyles();
 
   const [post, setPost] = useState({
@@ -42,22 +47,22 @@ const PostForm = () => {
     });
   };
 
-  const consolePost = () => {
-    console.log(post);
+  const addNewPost = () => {
+    addPost(post);
     clearFields();
   };
 
   return (
     <form className={classes.container}>
       <Typography gutterBottom variant="h4" component="h2">
-        Leave Your Own Post
+        Leave your own post
       </Typography>
       <TextField
         name="title"
         value={post.title}
         onChange={onChange}
         label="Title"
-        placeholder="Your Post Title"
+        placeholder="Your post title"
         fullWidth
         margin="normal"
         variant="filled"
@@ -83,7 +88,7 @@ const PostForm = () => {
       />
       <Container className={classes.buttonContainer}>
         <Button
-          onClick={consolePost}
+          onClick={addNewPost}
           variant="contained"
           color="primary"
           className={classes.button}
@@ -103,4 +108,7 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default connect(
+  null,
+  { addPost }
+)(PostForm);

@@ -1,4 +1,10 @@
-import { GET_POSTS, SEARCH_POST, NOT_SEARCHING } from '../../actions/types';
+import {
+  GET_POSTS,
+  SEARCH_POST,
+  NOT_SEARCHING,
+  ADD_POST,
+  DELETE_POST
+} from '../../actions/types';
 
 const initialState = {
   posts: [],
@@ -32,6 +38,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isSearch: false
+      };
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [payload, ...state.posts],
+        loading: false
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post.id !== payload),
+        loading: false
       };
     default:
       return state;

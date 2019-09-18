@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import PostForm from './PostForm';
+import Typography from '@material-ui/core/Typography';
 
 import PostItem from './PostItem';
 import Progress from '../layout/Progress';
@@ -17,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary
+  },
+  title: {
+    textAlign: 'center'
   }
 }));
 
@@ -38,6 +42,14 @@ const Posts = ({
         <PostForm></PostForm>
       </Grid>
       <Grid item xs={12}>
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="h2"
+          className={classes.title}
+        >
+          ...or read other posts
+        </Typography>
         <Paper className={classes.paper}>
           {!isSearch
             ? posts.map(post => <PostItem key={post.id} post={post} />)

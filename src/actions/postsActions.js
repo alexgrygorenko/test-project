@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { GET_POSTS, SEARCH_POST, NOT_SEARCHING } from './types';
+import {
+  GET_POSTS,
+  SEARCH_POST,
+  NOT_SEARCHING,
+  ADD_POST,
+  DELETE_POST
+} from './types';
 
 export const getPosts = () => async dispatch => {
   try {
@@ -14,29 +20,41 @@ export const getPosts = () => async dispatch => {
   }
 };
 
-// export const addPost = post => dispatch => {
-//   try {
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     };
-//     const body = JSON.stringify(formData);
+export const deletePost = postID => async dispatch => {
+  try {
+    await axios.delete(`https://simple-blog-api.crew.red/posts/${postID}`);
+    dispatch({
+      type: DELETE_POST,
+      payload: postID
+    });
+  } catch (err) {
+    console.log('Error =(');
+  }
+};
 
-//     const res = await axios.post(
-//       'https://simple-blog-api.crew.red/posts',
-//       body,
-//       config
-//     );
+export const addPost = formData => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    const body = JSON.stringify(formData);
 
-//     dispatch({
-//       type: ADD_POST,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     console.log('Error =(');
-//   }
-// }
+    const res = await axios.post(
+      'https://simple-blog-api.crew.red/posts',
+      body,
+      config
+    );
+
+    dispatch({
+      type: ADD_POST,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('Error =(');
+  }
+};
 
 export const searchPost = pattern => dispatch => {
   try {
