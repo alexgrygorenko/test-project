@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import NotFound from './components/layout/NotFound';
 import NavBar from './components/layout/NavBar';
 import Posts from './components/posts/Posts';
-import Post from './components/posts/Post';
+import Post from './components/post/Post';
 import store from './store/store';
 
 function App() {

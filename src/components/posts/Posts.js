@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { getPosts } from '../../actions/postsActions';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,7 +39,7 @@ const Posts = ({
   ) : (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <PostForm></PostForm>
+        <PostForm />
       </Grid>
       <Grid item xs={12}>
         <Typography

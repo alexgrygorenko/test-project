@@ -90,7 +90,6 @@ export const addComment = formData => async dispatch => {
       body,
       config
     );
-
     dispatch({
       type: ADD_COMMENT,
       payload: res.data

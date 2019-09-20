@@ -1,9 +1,10 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import CommentItem from './CommentItem';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import PostItem from './PostItem';
+import PostItem from '../posts/PostItem';
 import { getPost, addComment } from '../../actions/postsActions';
 import Progress from '../layout/Progress';
 import TextField from '@material-ui/core/TextField';
@@ -11,9 +12,13 @@ import Button from '@material-ui/core/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    margin: theme.spacing(2)
+  },
   container: {
     margin: theme.spacing(2),
-    textAlign: 'center'
+    alignItems: 'center'
   },
   buttonContainer: {
     display: 'flex',
@@ -33,7 +38,12 @@ const BackLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} to="/" {...props} />
 ));
 
-const Post = ({ getPost, addComment, match, post: { loading, post } }) => {
+const Post = ({
+  getPost,
+  addComment,
+  match,
+  post: { loading, post, comments }
+}) => {
   const classes = useStyles();
 
   const [comment, setComment] = useState('');
@@ -52,15 +62,16 @@ const Post = ({ getPost, addComment, match, post: { loading, post } }) => {
 
   const addNewComment = () => {
     addComment({
-      postId: match.params.id,
+      postId: post.id,
       body: comment
     });
+    clearComment();
   };
 
   return loading || post === null ? (
     <Progress />
   ) : (
-    <Fragment>
+    <Container className={classes.root}>
       <Button component={BackLink}>
         <ArrowBackIcon fontSize="small" />
         Go back to all posts
@@ -99,8 +110,13 @@ const Post = ({ getPost, addComment, match, post: { loading, post } }) => {
             Clear field
           </Button>
         </Container>
+        <Container className={classes.container}>
+          {comments.map(comment => (
+            <CommentItem key={comment.id} comment={comment}></CommentItem>
+          ))}
+        </Container>
       </Container>
-    </Fragment>
+    </Container>
   );
 };
 
