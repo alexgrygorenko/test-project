@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import PostItem from './PostItem';
-import { getPost } from '../../actions/postsActions';
+import { getPost, addComment } from '../../actions/postsActions';
 import Progress from '../layout/Progress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -33,7 +33,7 @@ const BackLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} to="/" {...props} />
 ));
 
-const Post = ({ getPost, match, post: { loading, post } }) => {
+const Post = ({ getPost, addComment, match, post: { loading, post } }) => {
   const classes = useStyles();
 
   const [comment, setComment] = useState('');
@@ -48,6 +48,13 @@ const Post = ({ getPost, match, post: { loading, post } }) => {
 
   const clearComment = () => {
     setComment('');
+  };
+
+  const addNewComment = () => {
+    addComment({
+      postId: match.params.id,
+      body: comment
+    });
   };
 
   return loading || post === null ? (
@@ -79,6 +86,7 @@ const Post = ({ getPost, match, post: { loading, post } }) => {
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick={addNewComment}
           >
             Add comment
           </Button>
@@ -102,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getPost }
+  { getPost, addComment }
 )(Post);

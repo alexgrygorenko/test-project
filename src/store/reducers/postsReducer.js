@@ -7,7 +7,8 @@ import {
   SET_CURRENT,
   UPDATE_CURRENT,
   CLEAR_CURRENT,
-  GET_POST
+  GET_POST,
+  ADD_COMMENT
 } from '../../actions/types';
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
   isSearch: false,
   loading: true,
   errors: null,
-  post: null
+  post: null,
+  comments: null
 };
 
 export default (state = initialState, action) => {
@@ -85,10 +87,21 @@ export default (state = initialState, action) => {
         loading: false
       };
     case GET_POST:
+      const { id, body, title, comments } = payload;
       return {
         ...state,
-        post: payload,
+        post: {
+          id,
+          body,
+          title
+        },
+        comments: comments.reverse(),
         loading: false
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        comments: [payload, ...state.comments]
       };
     default:
       return state;

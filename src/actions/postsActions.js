@@ -75,6 +75,31 @@ export const addPost = formData => async dispatch => {
   }
 };
 
+export const addComment = formData => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const body = JSON.stringify(formData);
+
+    const res = await axios.post(
+      'https://simple-blog-api.crew.red/comments',
+      body,
+      config
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('Error =(');
+  }
+};
+
 export const updatePost = formData => async dispatch => {
   try {
     const config = {
